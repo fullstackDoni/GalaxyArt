@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: galaxy-web
+    restart: always
+    volumes:
+      - ./back:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+
+  mongodb:
+    image: mongo:latest
+    container_name: galaxy-db
+    restart: always
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INIT DB_ROOT_USERNAME=admin
+      - MONGO_INIT DB_ROOT_PASSWORD=password
+
+volumes:
+  mongodb-data:
